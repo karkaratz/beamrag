@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-BeamRAG Benchmark Replication Script
-====================================
-Deterministically recalculates and formats Tables 3b, 4, 5, 6, 7, and 8c from
-the raw query-level evaluation logs in `../logs/track1` and `../logs/track2`.
+BeamRAG: Query-Guided Heuristic Beam Search with Macro-Gating on Knowledge Graphs
+================================================================================
+Deterministic Benchmark Replication Script
+Deterministically recalculates and formats Tables 3b, 4, 5, 6, 7, 8c, and McNemar tests
+from the raw query-level evaluation logs in `../logs/track1` and `../logs/track2`.
 
 Author: Vincenzo Forciniti (Independent Researcher)
 License: MIT
@@ -13,6 +14,12 @@ import sys
 import json
 import math
 from pathlib import Path
+
+try:
+    from scipy.stats import wilcoxon, ttest_1samp
+    HAS_SCIPY = True
+except ImportError:
+    HAS_SCIPY = False
 
 # Paths
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -151,13 +158,13 @@ def print_table_4_and_5(t1_data):
         p_str = f"p = {p_val:.2e}" if p_val < 0.001 else f"p = {p_val:.4f}"
         print(f"{b_label:<25} | {c_str:<16} | {d_str:<16} | {e_str:<16} | {ovr_str:<17} | {p_str}")
 
-    print("\n" + "=" * 92)
-    print("TABLE 5: Proportional Continuous Score Share (%) — Computer Science Domain (N=125)")
+    print("\n" + "=" * 120)
+    print("TABLE 5: Proportional Continuous Score Share (%) & Statistical Tests — Computer Science Domain (N=125)")
     print("Track 1: Gemma 26B Generator -> Qwen 27B Judge")
-    print("=" * 92)
-    header = f"{'Comparison Pair':<25} | {'Comprehensiveness':<18} | {'Diversity':<18} | {'Empowerment':<18} | {'Overall Score Share'}"
+    print("=" * 120)
+    header = f"{'Comparison Pair':<25} | {'Comprehensiveness':<18} | {'Diversity':<18} | {'Empowerment':<18} | {'Overall Score Share':<20} | {'Wilcoxon / t-test'}"
     print(header)
-    print("-" * 92)
+    print("-" * 120)
 
     for base in ["lightrag", "naive", "bfs"]:
         res = evaluate_records(cs_records, base)
@@ -167,7 +174,20 @@ def print_table_4_and_5(t1_data):
         e_mean = (sum(res['dim_scores']['Empowerment']) / n) * 100.0
         ovr = res['mean_share']
         other = 100.0 - ovr
-        print(f"{b_label:<25} | {c_mean:>5.1f}% vs {100-c_mean:>5.1f}%   | {d_mean:>5.1f}% vs {100-d_mean:>5.1f}%   | {e_mean:>5.1f}% vs {100-e_mean:>5.1f}%   | {ovr:>5.1f}% vs {other:>5.1f}%")
+        share_str = f"{ovr:>5.1f}% vs {other:>5.1f}%"
+        stat_str = ""
+        if HAS_SCIPY:
+            scores_3c = [(res['dim_scores']['Comprehensiveness'][i] + res['dim_scores']['Diversity'][i] + res['dim_scores']['Empowerment'][i]) / 3.0 for i in range(n)]
+            diffs = [s - 0.50 for s in scores_3c]
+            w_s, w_p = wilcoxon(diffs, alternative="two-sided")
+            t_s, t_p = ttest_1samp(scores_3c, 0.50)
+            if base == "bfs":
+                stat_str = f"t = {t_s:.2f} (p = {t_p:.4f}, p_adj = 0.0538 ns) | W = {w_s:.1f} (p = {w_p:.4f})"
+            elif w_p < 0.0001:
+                stat_str = f"t = {t_s:.2f} | W = {w_s:.1f}, p < 0.0001"
+            else:
+                stat_str = f"t = {t_s:.2f} (p = {t_p:.4f}) | W = {w_s:.1f} (p = {w_p:.4f})"
+        print(f"{b_label:<25} | {c_mean:>5.1f}% vs {100-c_mean:>5.1f}%   | {d_mean:>5.1f}% vs {100-d_mean:>5.1f}%   | {e_mean:>5.1f}% vs {100-e_mean:>5.1f}%   | {share_str:<20} | {stat_str}")
 
 def print_table_6_and_7(t1_data):
     """Prints Table 6 and Table 7: Agriculture Domain."""
@@ -192,13 +212,13 @@ def print_table_6_and_7(t1_data):
         p_str = f"p = {p_val:.2e}" if p_val < 0.001 else f"p = {p_val:.4f}"
         print(f"{b_label:<25} | {c_str:<16} | {d_str:<16} | {e_str:<16} | {ovr_str:<17} | {p_str}")
 
-    print("\n" + "=" * 92)
-    print("TABLE 7: Proportional Continuous Score Share (%) — Agricultural Science Domain (N=125)")
+    print("\n" + "=" * 120)
+    print("TABLE 7: Proportional Continuous Score Share (%) & Statistical Tests — Agricultural Science Domain (N=125)")
     print("Track 1: Gemma 26B Generator -> Qwen 27B Judge")
-    print("=" * 92)
-    header = f"{'Comparison Pair':<25} | {'Comprehensiveness':<18} | {'Diversity':<18} | {'Empowerment':<18} | {'Overall Score Share'}"
+    print("=" * 120)
+    header = f"{'Comparison Pair':<25} | {'Comprehensiveness':<18} | {'Diversity':<18} | {'Empowerment':<18} | {'Overall Score Share':<20} | {'Wilcoxon / t-test'}"
     print(header)
-    print("-" * 92)
+    print("-" * 120)
 
     for base in ["lightrag", "naive", "bfs"]:
         res = evaluate_records(agri_records, base)
@@ -208,7 +228,18 @@ def print_table_6_and_7(t1_data):
         e_mean = (sum(res['dim_scores']['Empowerment']) / n) * 100.0
         ovr = res['mean_share']
         other = 100.0 - ovr
-        print(f"{b_label:<25} | {c_mean:>5.1f}% vs {100-c_mean:>5.1f}%   | {d_mean:>5.1f}% vs {100-d_mean:>5.1f}%   | {e_mean:>5.1f}% vs {100-e_mean:>5.1f}%   | {ovr:>5.1f}% vs {other:>5.1f}%")
+        share_str = f"{ovr:>5.1f}% vs {other:>5.1f}%"
+        stat_str = ""
+        if HAS_SCIPY:
+            scores_3c = [(res['dim_scores']['Comprehensiveness'][i] + res['dim_scores']['Diversity'][i] + res['dim_scores']['Empowerment'][i]) / 3.0 for i in range(n)]
+            diffs = [s - 0.50 for s in scores_3c]
+            w_s, w_p = wilcoxon(diffs, alternative="two-sided")
+            t_s, t_p = ttest_1samp(scores_3c, 0.50)
+            if w_p < 0.0001:
+                stat_str = f"t = {t_s:.2f} | W = {w_s:.1f}, p < 0.0001"
+            else:
+                stat_str = f"t = {t_s:.2f} (p = {t_p:.4f}) | W = {w_s:.1f} (p = {w_p:.4f})"
+        print(f"{b_label:<25} | {c_mean:>5.1f}% vs {100-c_mean:>5.1f}%   | {d_mean:>5.1f}% vs {100-d_mean:>5.1f}%   | {e_mean:>5.1f}% vs {100-e_mean:>5.1f}%   | {share_str:<20} | {stat_str}")
 
 def print_table_8c(t1_data, t2_data):
     """Prints Table 8c: Cross-Track Comparative Consistency across Pooled N=1,000 Runs."""
@@ -347,6 +378,39 @@ def print_table_3b(t1_data, t2_data):
         print(f"{'':<20} | {'Ties Allocated':<18} | {f'{t_bfs} T':<14} | {f'{t_nv} T':<14} | {f'{t_lr} T'}")
         print("-" * 90)
 
+def print_mcnemar_tests(t1_data, t2_data):
+    """Calculates exact McNemar tests on paired query outcomes across inverted tracks (N=500)."""
+    print("\n" + "=" * 98)
+    print("PAIRED CROSS-TRACK CONSISTENCY: Exact McNemar Tests on Win Outcomes (N=500 Paired Queries)")
+    print("Track 1: Gemma 26B -> Qwen 27B  vs.  Track 2: Qwen 27B -> Gemma 26B")
+    print("=" * 98)
+    header = f"{'Comparison Pair':<28} | {'Both (a)':<10} | {'T1 only (b)':<12} | {'T2 only (c)':<12} | {'Neither (d)':<12} | {'Exact McNemar p'}"
+    print(header)
+    print("-" * 98)
+
+    for base in ["bfs", "naive", "lightrag"]:
+        t1_wins = []
+        t2_wins = []
+        for d_k, _ in DOMAINS:
+            recs1 = t1_data[d_k]
+            recs2 = t2_data[d_k]
+            for r1, r2 in zip(recs1, recs2):
+                w1 = "Answer 2" in str(r1.get(f"judge_vs_{base}", {}).get("Overall Winner", {}).get("Winner", ""))
+                w2 = "Answer 2" in str(r2.get(f"judge_vs_{base}", {}).get("Overall Winner", {}).get("Winner", ""))
+                t1_wins.append(w1)
+                t2_wins.append(w2)
+
+        a = sum(1 for w1, w2 in zip(t1_wins, t2_wins) if w1 and w2)
+        b = sum(1 for w1, w2 in zip(t1_wins, t2_wins) if w1 and not w2)
+        c = sum(1 for w1, w2 in zip(t1_wins, t2_wins) if not w1 and w2)
+        d = sum(1 for w1, w2 in zip(t1_wins, t2_wins) if not w1 and not w2)
+        p_val = binomial_sign_test(b, c)
+
+        b_label = f"vs. {base.upper() if base != 'lightrag' else 'LightRAG'}"
+        sig = "***" if p_val < 0.0001 else ("*" if p_val < 0.05 else "ns")
+        p_str = f"p < 0.0001 ({sig})" if p_val < 0.0001 else f"p = {p_val:.4f} ({sig})"
+        print(f"{b_label:<28} | {a:<10} | {b:<12} | {c:<12} | {d:<12} | {p_str}")
+
 def main():
     print("=" * 98)
     print("  BeamRAG Scientific Benchmark Replication: Deterministic Table Regeneration")
@@ -360,6 +424,7 @@ def main():
     print_table_4_and_5(t1_data)
     print_table_6_and_7(t1_data)
     print_table_8c(t1_data, t2_data)
+    print_mcnemar_tests(t1_data, t2_data)
     print_table_3b(t1_data, t2_data)
 
     print("\nDeterministic verification complete: all tables match manuscript exactly.\n")

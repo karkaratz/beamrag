@@ -1,7 +1,7 @@
-# BeamRAG: Adaptive Knowledge Graph Traversal for Hybrid RAG
+# BeamRAG: Query-Guided Heuristic Beam Search with Macro-Gating on Knowledge Graphs
 
 Official replication package and evaluation benchmark logs for the paper:
-> **BeamRAG: Adaptive Knowledge Graph Traversal for Hybrid Retrieval-Augmented Generation**  
+> **BeamRAG: Query-Guided Heuristic Beam Search with Macro-Gating on Knowledge Graphs**  
 > *Vincenzo Forciniti* (Independent Researcher)
 
 ---
@@ -55,7 +55,8 @@ This deterministically recalculates and formats all paper tables directly from t
 - **Corpora**: 4 diverse domains spanning Computer Science, Agricultural Science, Heterogeneous Multi-Domain, and Legal contracts.
 - **Hardware Platform**: Dual NVIDIA RTX 3090 (24GB VRAM each), AMD Ryzen 9 5950X (16 cores, 32 threads), 128GB DDR4 RAM.
 - **Inference Harness**: LM Studio / vLLM local endpoints running Q4_K_M quantized models (`google/gemma-4-26b-a4b` and `qwen/qwen3.8-27b`).
-- **Database Engine**: PostgreSQL 16 with Apache AGE (OpenCypher graph queries) and pgvector (HNSW vector indices).
+- **Database Engine**: PostgreSQL 16 with pgvector (HNSW vector indices) and relational property-graph tables, traversed via application-tier Python engine (Listing C.1).
+- **Evaluated LightRAG Baseline**: `lightrag-hku==1.5.7` (commit `28ff1b0`), retrieval configuration `hybrid`, file-backed storage (`nano-vectordb` + `NetworkX`).
 
 ---
 
@@ -65,7 +66,7 @@ If you use this benchmark or replication package in your research, please cite:
 
 ```bibtex
 @article{forciniti2026beamrag,
-  title={BeamRAG: Adaptive Knowledge Graph Traversal for Hybrid Retrieval-Augmented Generation},
+  title={BeamRAG: Query-Guided Heuristic Beam Search with Macro-Gating on Knowledge Graphs},
   author={Forciniti, Vincenzo},
   journal={arXiv preprint},
   year={2026}
