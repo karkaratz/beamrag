@@ -6,6 +6,30 @@ Official replication package and evaluation benchmark logs for the paper:
 
 ---
 
+## Overview: What is BeamRAG?
+
+**BeamRAG** is a hybrid Retrieval-Augmented Generation (RAG) architecture engineered to resolve the **multi-hop cross-document reasoning gap** while actively suppressing **semantic drift** across heterogeneous knowledge graphs.
+
+Standard dense retrieval often fails when critical supporting evidence is scattered across distinct, interconnected documents. Conversely, unconstrained graph traversal algorithms easily drift into irrelevant corpora when crossing polysemous entities or generic connector nodes.
+
+BeamRAG resolves this trade-off through three core mechanisms unified within a **PostgreSQL** substrate:
+
+1. **Query-Guided Heuristic Beam Search ($N$-Hop Pathfinding)**:
+   - Traverses multi-relational property graphs via bounded beam search ($B = 6$, depth horizon $L \le 4$).
+   - Explicitly navigates semantic cross-document bridges (`SAME_AS`, $w_{\text{rel}} = 1.00$) and temporal revisions (`SUPERSEDES`, $w_{\text{rel}} = 0.90$).
+   - Attenuates distraction from high-degree topological hubs ("Document", "System") via dynamic logarithmic suppression:
+     $$\frac{1}{\log_2(2 + \deg(v))}$$
+
+2. **Decoupled Hierarchical Thresholding (DHT & Macro-Gating)**:
+   - **Micro-admissibility ($\tau_{\text{node}} = 0.40$)**: Enforces query semantic relevance on every visited candidate entity, pruning irrelevant branches early.
+   - **Macro-document coherence gating ($\tau_{\text{coherence}} = 0.65$)**: Checks whether the document provenance of an edge satisfies query relevance ($\max_{c \in \mathcal{C}(D)} \cos(\mathbf{e}_c, \mathbf{e}_q) \ge 0.65$), pruning cross-corpus contamination before it bleeds into unrelated documents.
+
+3. **Asymmetric Dual-Channel Retrieval & Graph–Text Alignment Reranking**:
+   - Decouples textual passage retrieval (fusing dense similarity, lexical matching, and graph entity density via Reciprocal Rank Fusion) from graph traversal.
+   - Re-ranks harvested relational triples using a joint objective ($\beta = 0.60$) that scores traversal confidence against surface-entity mention alignment in the top retrieved passages before LLM prompt injection.
+
+---
+
 ## Repository Structure
 
 ```
@@ -35,6 +59,41 @@ beamrag/
 │       └── legal.json
 └── analysis/
     └── reproduce_tables.py      # Standalone deterministic replication script
+```
+
+### Evaluation Tracks: Bidirectional Role-Reversal Protocol
+The evaluation benchmark comprises 1,000 query-level evaluations across two inverted tracks ($N=500$ queries per track, totaling 4,000 candidate answers and 3,000 pairwise judge comparisons across 3 head-to-head baselines):
+- **Track 1**: Generator = Google Gemma 4 26B (`google/gemma-4-26b-a4b`) $\to$ Judge = Qwen 3.8 27B (`qwen/qwen3.8-27b`).
+- **Track 2**: Generator = Qwen 3.8 27B (`qwen/qwen3.8-27b`) $\to$ Judge = Google Gemma 4 26B (`google/gemma-4-26b-a4b`).
+
+Swapping the generator and judge models across tracks explicitly validates cross-model robustness and controls for evaluator preference bias (e.g., self-preference artifacts).
+
+---
+
+## Knowledge Graph Exports (`kg_exports/`)
+
+The `kg_exports/` directory provides the exact pre-extracted knowledge graphs and textual chunks used in the benchmark across all four domains. Each `.json.gz` file contains three primary keys:
+- `chunks`: Corpus text passages with unique `source_id` document provenance.
+- `entities`: Extracted entity vertices, types, descriptions, and source documents.
+- `relationships`: Directed multi-relational edges with typed predicates (`SAME_AS`, `SUPERSEDES`, `DEFINES`, etc.), ontology weights, descriptions, and provenance.
+
+### Quick Load / Ingestion Snippet
+The exported structure is directly compatible with standard graph libraries (NetworkX, igraph), PostgreSQL schemas, as well as LightRAG's native custom ingestion interface (`LightRAG.ainsert_custom_kg`):
+
+```python
+import gzip
+import json
+
+# Load exported knowledge graph for Computer Science
+with gzip.open("kg_exports/custom_kg_cs.json.gz", "rt", encoding="utf-8") as f:
+    kg_data = json.load(f)
+
+print(f"Chunks:        {len(kg_data['chunks'])}")
+print(f"Entities:      {len(kg_data['entities'])}")
+print(f"Relationships: {len(kg_data['relationships'])}")
+
+# Ingest directly into LightRAG:
+# await lightrag_instance.ainsert_custom_kg(kg_data)
 ```
 
 ---
