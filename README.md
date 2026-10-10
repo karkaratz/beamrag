@@ -53,8 +53,8 @@ This deterministically recalculates and formats all paper tables directly from t
 ## Benchmark & Experimental Details
 
 - **Corpora**: 4 diverse domains spanning Computer Science, Agricultural Science, Heterogeneous Multi-Domain, and Legal contracts.
-- **Hardware Platform**: Dual NVIDIA RTX 3090 (24GB VRAM each), AMD Ryzen 9 5950X (16 cores, 32 threads), 128GB DDR4 RAM.
-- **Inference Harness**: LM Studio / vLLM local endpoints running Q4_K_M quantized models (`google/gemma-4-26b-a4b` and `qwen/qwen3.8-27b`).
+- **Host & Application Node**: Apple MacBook Pro (M1 Pro, 16 GB RAM), hosting the isolated Docker microservice network (`aia-backend`, `aia-lightrag`, PostgreSQL 16 with `pgvector` v0.7.0).
+- **Inference Server**: Dedicated Neural Inference Server (ASUS Ascent GX10, 128 GB RAM) running LM Studio local inference endpoints (`google/gemma-4-26b-a4b` and `qwen/qwen3.8-27b`).
 - **Database Engine**: PostgreSQL 16 with pgvector (HNSW vector indices) and relational property-graph tables, traversed via application-tier Python engine (Listing C.1).
 - **Evaluated LightRAG Baseline**: `lightrag-hku==1.5.7` (commit `28ff1b0`), retrieval configuration `hybrid`, file-backed storage (`nano-vectordb` + `NetworkX`).
 
