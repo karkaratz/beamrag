@@ -1,19 +1,77 @@
-# BeamRAG — Benchmark Replication Package
+# BeamRAG: Adaptive Knowledge Graph Traversal for Hybrid RAG
 
-Replication data for "BeamRAG: Query-Guided Heuristic Beam Search
-with Macro-Gating on Knowledge Graphs".
+Official replication package and evaluation benchmark logs for the paper:
+> **BeamRAG: Adaptive Knowledge Graph Traversal for Hybrid Retrieval-Augmented Generation**  
+> *Vincenzo Forciniti* (Independent Researcher)
 
-## Contents
-- `prompts/` — 500 evaluation queries (4 domains × 125)
-- `logs/` — raw query-level judge logs, 1,000 paired executions (Tracks 1–2)
-- `analysis/` — scripts reproducing Tables 4–8c and all statistical tests
+---
 
-## Reproducing the results
-1. `python analysis/reproduce_tables.py`
-2. Output: win/loss/tie totals, win rates, exact binomial sign tests,
-   Holm–Bonferroni correction, between-track z-tests.
+## Repository Structure
 
-## Notes
-- The BeamRAG traversal algorithm is fully specified in Appendix C of the paper.
-- The LightRAG baseline uses the official `lightrag-hku` package.
-- Code: MIT License. Data & prompts: CC BY 4.0.
+```
+beamrag/
+├── README.md
+├── LICENSE                      # MIT License
+├── prompts/                     # 500 Curated benchmark queries across 4 domains
+│   ├── computer_science.json    # 125 queries (CS domain)
+│   ├── agriculture.json         # 125 queries (Agricultural science)
+│   ├── mix.json                 # 125 queries (Heterogeneous multi-domain)
+│   └── legal.json               # 125 queries (Contractual & administrative law)
+├── logs/                        # 1,000 Paired evaluation logs across bidirectional tracks
+│   ├── track1/                  # Track 1: Gemma 26B Generator -> Qwen 27B Judge
+│   │   ├── computer_science.json
+│   │   ├── agriculture.json
+│   │   ├── mix.json
+│   │   └── legal.json
+│   └── track2/                  # Track 2: Qwen 27B Generator -> Gemma 26B Judge
+│       ├── computer_science.json
+│       ├── agriculture.json
+│       ├── mix.json
+│       └── legal.json
+└── analysis/
+    └── reproduce_tables.py      # Standalone deterministic replication script
+```
+
+---
+
+## Replication Instructions
+
+The replication script requires only standard Python 3 (no third-party dependencies required):
+
+```bash
+python3 analysis/reproduce_tables.py
+```
+
+This deterministically recalculates and formats all paper tables directly from the query-level judge logs:
+- **Table 3b**: Soft-Tie Sensitivity Spectrum ($\epsilon \in [0.00, 0.20]$, $N=1,000$).
+- **Table 4 & 5**: Computer Science domain win rates and continuous score shares ($N=125$).
+- **Table 6 & 7**: Agricultural Science domain win rates and continuous score shares ($N=125$).
+- **Table 8c**: Cross-Track Comparative Consistency across inverted tracks ($N=1,000$).
+
+---
+
+## Benchmark & Experimental Details
+
+- **Corpora**: 4 diverse domains spanning Computer Science, Agricultural Science, Heterogeneous Multi-Domain, and Legal contracts.
+- **Hardware Platform**: Dual NVIDIA RTX 3090 (24GB VRAM each), AMD Ryzen 9 5950X (16 cores, 32 threads), 128GB DDR4 RAM.
+- **Inference Harness**: LM Studio / vLLM local endpoints running Q4_K_M quantized models (`google/gemma-4-26b-a4b` and `qwen/qwen3.8-27b`).
+- **Database Engine**: PostgreSQL 16 with Apache AGE (OpenCypher graph queries) and pgvector (HNSW vector indices).
+
+---
+
+## Citation
+
+If you use this benchmark or replication package in your research, please cite:
+
+```bibtex
+@article{forciniti2026beamrag,
+  title={BeamRAG: Adaptive Knowledge Graph Traversal for Hybrid Retrieval-Augmented Generation},
+  author={Forciniti, Vincenzo},
+  journal={arXiv preprint},
+  year={2026}
+}
+```
+
+## License
+
+This replication package is released under the MIT License.
