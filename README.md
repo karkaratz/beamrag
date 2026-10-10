@@ -12,6 +12,11 @@ Official replication package and evaluation benchmark logs for the paper:
 beamrag/
 ├── README.md
 ├── LICENSE                      # MIT License
+├── kg_exports/                  # Exported knowledge graphs & text chunks (entities, relations, chunks)
+│   ├── custom_kg_cs.json.gz     # Computer Science domain
+│   ├── custom_kg_agriculture.json.gz # Agricultural Science domain
+│   ├── custom_kg_mix.json.gz    # Heterogeneous Multi-Domain (MIX)
+│   └── custom_kg_legal.json.gz  # Contractual & Administrative Law domain
 ├── prompts/                     # 500 Curated benchmark queries across 4 domains
 │   ├── computer_science.json    # 125 queries (CS domain)
 │   ├── agriculture.json         # 125 queries (Agricultural science)
