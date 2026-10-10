@@ -52,7 +52,7 @@ This deterministically recalculates and formats all paper tables directly from t
 
 ## Benchmark & Experimental Details
 
-- **Corpora**: 4 diverse domains spanning Computer Science, Agricultural Science, Heterogeneous Multi-Domain, and Legal contracts.
+- **Corpora**: 4 corpora drawn from the public UltraDomain benchmark (Qian et al.), adopting the same domain selections evaluated in the LightRAG benchmark (Guo et al.): Computer Science, Agricultural Science, Heterogeneous Multi-Domain (MIX), and Legal contracts.
 - **Host & Application Node**: Apple MacBook Pro (M1 Pro, 16 GB RAM), hosting the isolated Docker microservice network (`aia-backend`, `aia-lightrag`, PostgreSQL 16 with `pgvector` v0.7.0).
 - **Inference Server**: Dedicated Neural Inference Server (ASUS Ascent GX10, 128 GB RAM) running LM Studio local inference endpoints (`google/gemma-4-26b-a4b` and `qwen/qwen3.8-27b`).
 - **Database Engine**: PostgreSQL 16 with pgvector (HNSW vector indices) and relational property-graph tables, traversed via application-tier Python engine (Listing C.1).
