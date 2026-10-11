@@ -1,5 +1,8 @@
 # BeamRAG: Query-Guided Heuristic Beam Search with Macro-Gating on Knowledge Graphs
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23294593.svg)](https://doi.org/10.5281/zenodo.23294593)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Official replication package and evaluation benchmark logs for the paper:
 > **BeamRAG: Query-Guided Heuristic Beam Search with Macro-Gating on Knowledge Graphs**  
 > *Vincenzo Forciniti* (Independent Researcher)
@@ -126,14 +129,16 @@ This deterministically recalculates and formats all paper tables directly from t
 
 ## Citation
 
-If you use this benchmark or replication package in your research, please cite:
+If you use this benchmark or replication package in your research, please cite the permanent artifact registered on Zenodo:
 
 ```bibtex
-@article{forciniti2026beamrag,
-  title={BeamRAG: Query-Guided Heuristic Beam Search with Macro-Gating on Knowledge Graphs},
-  author={Forciniti, Vincenzo},
-  journal={arXiv preprint},
-  year={2026}
+@software{forciniti2026beamrag,
+  author    = {Forciniti, Vincenzo},
+  title     = {{BeamRAG: Query-Guided Heuristic Beam Search with Macro-Gating on Knowledge Graphs}},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.23294593},
+  url       = {https://doi.org/10.5281/zenodo.23294593}
 }
 ```
 

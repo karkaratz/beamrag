@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, benchmark suite, or replication artifacts, please cite it as below."
+authors:
+  - family-names: "Forciniti"
+    given-names: "Vincenzo"
+title: "BeamRAG: Query-Guided Heuristic Beam Search with Macro-Gating on Knowledge Graphs"
+version: 1.0.0
+doi: 10.5281/zenodo.23294593
+date-released: 2026-10-11
+url: "https://github.com/karkaratz/beamrag"
+license: MIT
