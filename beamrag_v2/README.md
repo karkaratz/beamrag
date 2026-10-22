@@ -6,7 +6,7 @@
 This directory contains the official evaluation logs, benchmark queries, and reproduction script for the research manuscript:
 > **BeamRAG v2: Alias-Aware Adaptive Beam Traversal with Thresholded Hub Regularization for Multi-Hop GraphRAG**  
 > *Vincenzo Forciniti* (Independent Researcher)  
-> **Permanent Zenodo Archive**: [10.5281/zenodo.23563493](https://doi.org/10.5281/zenodo.23563493)
+> **Permanent Preprint Archive (Zenodo)**: [10.5281/zenodo.23563493](https://doi.org/10.5281/zenodo.23563493)
 
 ---
 
