@@ -55,3 +55,20 @@ This standalone script uses standard Python 3 (with optional `scipy` for exact b
 - **Table 5b**: Paired Cross-Track Consistency ($N=500$ paired queries) with exact McNemar tests and Holm correction.
 - **Tables B.1 & B.2**: Disaggregated multi-criteria panels (*Comprehensiveness*, *Diversity*, *Empowerment*) across both tracks.
 - **Table C.2**: Component-level retrieval ablation across all 500 benchmark queries (`v2_full`, `v2_no_alias`, `v2_beam_4`, `v2_beam_8`, `v2_reg_v1`).
+
+---
+
+## Citation
+
+If you use or reference this work in your research, please cite the permanent preprint artifact:
+
+```bibtex
+@article{forciniti2026beamragv2,
+  author    = {Forciniti, Vincenzo},
+  title     = {{BeamRAG v2: Alias-Aware Adaptive Beam Traversal with Thresholded Hub Regularization for Multi-Hop GraphRAG}},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.23563493},
+  url       = {https://doi.org/10.5281/zenodo.23563493}
+}
+```
