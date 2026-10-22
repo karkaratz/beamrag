@@ -1,8 +1,12 @@
 # BeamRAG v2: Evaluation Logs & Deterministic Reproduction Suite
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23563493.svg)](https://doi.org/10.5281/zenodo.23563493)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 This directory contains the official evaluation logs, benchmark queries, and reproduction script for the research manuscript:
 > **BeamRAG v2: Alias-Aware Adaptive Beam Traversal with Thresholded Hub Regularization for Multi-Hop GraphRAG**  
-> *Vincenzo Forciniti* (Independent Researcher)
+> *Vincenzo Forciniti* (Independent Researcher)  
+> **Permanent Zenodo Archive**: [10.5281/zenodo.23563493](https://doi.org/10.5281/zenodo.23563493)
 
 ---
 
