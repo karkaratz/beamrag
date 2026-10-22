@@ -1,0 +1,18 @@
+# Ignore everything in beamrag_v2 by default
+*
+
+# Allow reproduction scripts, documentation, and benchmark queries
+!README.md
+!.gitignore
+!reproduce_v2_tables.py
+!prompts/
+!prompts/**
+
+# Allow benchmark evaluation logs and ablation data
+!v2_llm_eval_track1_results.json
+!v2_vs_lightrag_track1_results.json
+!v2_llm_eval_track2_results.json
+!v2_vs_lightrag_track2_results.json
+!v2_benchmark_results.json
+!exact_ablation_results.json
+!exact_ablation_summary.json

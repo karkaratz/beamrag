@@ -1,0 +1,237 @@
+{
+  "Overall": {
+    "v2_full": {
+      "n_queries": 500,
+      "mean_beam_width": 5.68,
+      "mean_hub_intrusion_pct": 5.8,
+      "mean_candidates_evaluated": 188.3,
+      "mean_candidate_edges": 60.2,
+      "mean_approx_tokens": 349.6,
+      "mean_latency_ms": 7.98
+    },
+    "v2_no_alias": {
+      "n_queries": 500,
+      "mean_beam_width": 5.68,
+      "mean_hub_intrusion_pct": 5.79,
+      "mean_candidates_evaluated": 188.4,
+      "mean_candidate_edges": 59.4,
+      "mean_approx_tokens": 348.5,
+      "mean_latency_ms": 7.49
+    },
+    "v2_beam_4": {
+      "n_queries": 500,
+      "mean_beam_width": 4.0,
+      "mean_hub_intrusion_pct": 8.0,
+      "mean_candidates_evaluated": 138.5,
+      "mean_candidate_edges": 48.3,
+      "mean_approx_tokens": 336.3,
+      "mean_latency_ms": 5.76
+    },
+    "v2_beam_8": {
+      "n_queries": 500,
+      "mean_beam_width": 8.0,
+      "mean_hub_intrusion_pct": 4.18,
+      "mean_candidates_evaluated": 266.2,
+      "mean_candidate_edges": 77.8,
+      "mean_approx_tokens": 363.9,
+      "mean_latency_ms": 10.48
+    },
+    "v2_reg_v1": {
+      "n_queries": 500,
+      "mean_beam_width": 5.68,
+      "mean_hub_intrusion_pct": 18.57,
+      "mean_candidates_evaluated": 154.8,
+      "mean_candidate_edges": 61.5,
+      "mean_approx_tokens": 332.2,
+      "mean_latency_ms": 7.25
+    }
+  },
+  "computer_science": {
+    "v2_full": {
+      "n_queries": 125,
+      "mean_beam_width": 6.0,
+      "mean_hub_intrusion_pct": 1.06,
+      "mean_candidates_evaluated": 187.3,
+      "mean_candidate_edges": 57.1,
+      "mean_approx_tokens": 327.4,
+      "mean_latency_ms": 7.8
+    },
+    "v2_no_alias": {
+      "n_queries": 125,
+      "mean_beam_width": 6.0,
+      "mean_hub_intrusion_pct": 1.03,
+      "mean_candidates_evaluated": 187.4,
+      "mean_candidate_edges": 55.1,
+      "mean_approx_tokens": 325.0,
+      "mean_latency_ms": 7.23
+    },
+    "v2_beam_4": {
+      "n_queries": 125,
+      "mean_beam_width": 4.0,
+      "mean_hub_intrusion_pct": 1.15,
+      "mean_candidates_evaluated": 125.1,
+      "mean_candidate_edges": 40.8,
+      "mean_approx_tokens": 321.4,
+      "mean_latency_ms": 5.12
+    },
+    "v2_beam_8": {
+      "n_queries": 125,
+      "mean_beam_width": 8.0,
+      "mean_hub_intrusion_pct": 0.74,
+      "mean_candidates_evaluated": 250.0,
+      "mean_candidate_edges": 70.6,
+      "mean_approx_tokens": 336.4,
+      "mean_latency_ms": 9.71
+    },
+    "v2_reg_v1": {
+      "n_queries": 125,
+      "mean_beam_width": 6.0,
+      "mean_hub_intrusion_pct": 2.46,
+      "mean_candidates_evaluated": 127.8,
+      "mean_candidate_edges": 44.2,
+      "mean_approx_tokens": 317.8,
+      "mean_latency_ms": 4.95
+    }
+  },
+  "agriculture": {
+    "v2_full": {
+      "n_queries": 125,
+      "mean_beam_width": 5.33,
+      "mean_hub_intrusion_pct": 5.5,
+      "mean_candidates_evaluated": 181.3,
+      "mean_candidate_edges": 60.3,
+      "mean_approx_tokens": 368.7,
+      "mean_latency_ms": 7.19
+    },
+    "v2_no_alias": {
+      "n_queries": 125,
+      "mean_beam_width": 5.33,
+      "mean_hub_intrusion_pct": 5.55,
+      "mean_candidates_evaluated": 180.9,
+      "mean_candidate_edges": 59.8,
+      "mean_approx_tokens": 367.5,
+      "mean_latency_ms": 6.92
+    },
+    "v2_beam_4": {
+      "n_queries": 125,
+      "mean_beam_width": 4.0,
+      "mean_hub_intrusion_pct": 8.24,
+      "mean_candidates_evaluated": 137.6,
+      "mean_candidate_edges": 51.5,
+      "mean_approx_tokens": 353.0,
+      "mean_latency_ms": 5.36
+    },
+    "v2_beam_8": {
+      "n_queries": 125,
+      "mean_beam_width": 8.0,
+      "mean_hub_intrusion_pct": 2.66,
+      "mean_candidates_evaluated": 279.0,
+      "mean_candidate_edges": 80.6,
+      "mean_approx_tokens": 381.9,
+      "mean_latency_ms": 10.47
+    },
+    "v2_reg_v1": {
+      "n_queries": 125,
+      "mean_beam_width": 5.33,
+      "mean_hub_intrusion_pct": 20.16,
+      "mean_candidates_evaluated": 129.5,
+      "mean_candidate_edges": 54.7,
+      "mean_approx_tokens": 349.0,
+      "mean_latency_ms": 5.42
+    }
+  },
+  "legal": {
+    "v2_full": {
+      "n_queries": 125,
+      "mean_beam_width": 5.68,
+      "mean_hub_intrusion_pct": 13.35,
+      "mean_candidates_evaluated": 252.2,
+      "mean_candidate_edges": 84.8,
+      "mean_approx_tokens": 372.1,
+      "mean_latency_ms": 11.78
+    },
+    "v2_no_alias": {
+      "n_queries": 125,
+      "mean_beam_width": 5.68,
+      "mean_hub_intrusion_pct": 13.32,
+      "mean_candidates_evaluated": 252.5,
+      "mean_candidate_edges": 84.0,
+      "mean_approx_tokens": 370.9,
+      "mean_latency_ms": 11.06
+    },
+    "v2_beam_4": {
+      "n_queries": 125,
+      "mean_beam_width": 4.0,
+      "mean_hub_intrusion_pct": 16.42,
+      "mean_candidates_evaluated": 196.0,
+      "mean_candidate_edges": 68.2,
+      "mean_approx_tokens": 361.9,
+      "mean_latency_ms": 9.02
+    },
+    "v2_beam_8": {
+      "n_queries": 125,
+      "mean_beam_width": 8.0,
+      "mean_hub_intrusion_pct": 10.43,
+      "mean_candidates_evaluated": 343.2,
+      "mean_candidate_edges": 106.8,
+      "mean_approx_tokens": 379.5,
+      "mean_latency_ms": 14.87
+    },
+    "v2_reg_v1": {
+      "n_queries": 125,
+      "mean_beam_width": 5.68,
+      "mean_hub_intrusion_pct": 41.4,
+      "mean_candidates_evaluated": 257.0,
+      "mean_candidate_edges": 107.4,
+      "mean_approx_tokens": 342.4,
+      "mean_latency_ms": 14.49
+    }
+  },
+  "mix": {
+    "v2_full": {
+      "n_queries": 125,
+      "mean_beam_width": 5.71,
+      "mean_hub_intrusion_pct": 3.27,
+      "mean_candidates_evaluated": 132.5,
+      "mean_candidate_edges": 38.7,
+      "mean_approx_tokens": 330.2,
+      "mean_latency_ms": 5.17
+    },
+    "v2_no_alias": {
+      "n_queries": 125,
+      "mean_beam_width": 5.71,
+      "mean_hub_intrusion_pct": 3.27,
+      "mean_candidates_evaluated": 132.8,
+      "mean_candidate_edges": 38.6,
+      "mean_approx_tokens": 330.7,
+      "mean_latency_ms": 4.76
+    },
+    "v2_beam_4": {
+      "n_queries": 125,
+      "mean_beam_width": 4.0,
+      "mean_hub_intrusion_pct": 6.19,
+      "mean_candidates_evaluated": 95.2,
+      "mean_candidate_edges": 32.7,
+      "mean_approx_tokens": 308.7,
+      "mean_latency_ms": 3.53
+    },
+    "v2_beam_8": {
+      "n_queries": 125,
+      "mean_beam_width": 8.0,
+      "mean_hub_intrusion_pct": 2.88,
+      "mean_candidates_evaluated": 192.7,
+      "mean_candidate_edges": 53.2,
+      "mean_approx_tokens": 357.7,
+      "mean_latency_ms": 6.86
+    },
+    "v2_reg_v1": {
+      "n_queries": 125,
+      "mean_beam_width": 5.71,
+      "mean_hub_intrusion_pct": 10.25,
+      "mean_candidates_evaluated": 104.7,
+      "mean_candidate_edges": 39.5,
+      "mean_approx_tokens": 319.7,
+      "mean_latency_ms": 4.16
+    }
+  }
+}
